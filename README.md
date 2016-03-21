@@ -2,10 +2,33 @@
 
 ## Planning Phase
 
+### Demo Overview
+
+The Dapp we build will be a simple decentralised marketplace. This gives anyone the ability to a marketplace and list any item for sale, which is facilitated using an [escrow contrtact](https://github.com/frozeman/example-escrow-dapp). It's also censorship-resistent meaning there are no single points of centralisation as everything is managed by decentralised networks (ethereum + IPFS).
+
+There are 3 main routes in the app:
+
+* Registry list (select market)
+  * View Market
+  * Create new market
+* Registry view (items list)
+  * View Item
+  * Create new Item
+* Escrow contract view (item details)
+  * Purchase / Refund / etc.
+
+### Prerequisites
+
+* [Geth](https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum)
+* [Node `0.10.x`](https://github.com/creationix/nvm) `nvm install 0.10; nvm use 0.10`
+* [Meteor](http://meteor.com)
+* [Meteor-build-client](https://github.com/frozeman/meteor-build-client)
+* [IPFS](https://ipfs.io/docs/install/)
+
 ### Program Overview (WIP)
 
 ```
-Explanation & Demos
+Explanation & Demos (slideshow pres)
   - Blockchain
   - Ethereum
   - EVM
@@ -22,7 +45,7 @@ Explanation & Demos
   - Mist
   - IPFS
   - Decentralised Market
-    - Escrow Contract
+    - Escrow Contract https://github.com/frozeman/example-escrow-dapp
     - Regsitry Contract
     - Demo app
 
@@ -37,14 +60,6 @@ Going Beyond
   - Improving the Demo
   - Dapple
 ```
-
-### Prerequisites
-
-* [Geth](https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum)
-* [Node `0.10.x`](https://github.com/creationix/nvm) `nvm install 0.10; nvm use 0.10`
-* [Meteor](http://meteor.com)
-* [Meteor-build-client](https://github.com/frozeman/meteor-build-client)
-* [IPFS](https://ipfs.io/docs/install/)
 
 ## TODOs
 
