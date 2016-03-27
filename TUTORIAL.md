@@ -54,6 +54,8 @@ kadira:blaze-layout     # templating
 materialize:materialize # my favourite css framework for prototyping
 ```
 
+### Create a landing route
+
 Now that we have our dependencies added, we'll create a layout and some routes for our templates. Eventually our app will look something like:
 
 * Landing page `/`
@@ -70,10 +72,9 @@ Now that we have our dependencies added, we'll create a layout and some routes f
 
 But for now we'll just create one route for a landing page, and build more as we go.
 
-Create `client/templates/layouts/mainLayout.html`. This is the main layout which will container a header, footer and the content of the current route's content.
+Create `client/templates/layouts/mainLayout.html`. This is the main layout which will container a header, footer and the content of the current route's template.
 
 *mainLayout.html*
-
 ```handlebars
 <template name="mainLayout">
   {{> navbar}}
@@ -88,10 +89,9 @@ Create `client/templates/layouts/mainLayout.html`. This is the main layout which
 
 Take a look at `client/components/footer.html` and `navbar.html` for the navbar and footer templates.
 
-We'll also add the landing page itself over at `client/templates/views/landing/landing.html`.
+We'll also add the landing page itself over at `client/templates/views/landing.html`.
 
 *landing.html*
-
 ```handlebars
 <template name="landing">
   <br><br>
@@ -121,7 +121,6 @@ We'll also add the landing page itself over at `client/templates/views/landing/l
 Now let's wire up these templates to the router.
 
 *router.js*
-
 ```js
 BlazeLayout.setRoot('body')
 
@@ -138,10 +137,11 @@ Fire up Meteor and visit http://localhost:3000.
 $ meteor
 ```
 
-You should see a lovely landing page, but it doesn't do anything yet. We want to be able to deploy a new market contract. Let's write it!
+### Create the Market Contract
 
-*client/contracts/Market.sol*
+You should see a lovely landing page, but it doesn't do anything yet. We want to be able to deploy a new market contract. Let's write it in `client/contracts/`.
 
+*Market.sol*
 ```solidity
 contract Market {
 
@@ -181,12 +181,11 @@ contract Market {
 }
 ```
 
-This is a basic registry Smart Contract written in solidity. It allows anyone to `register` address, which gets added to a `mapping` called `items`. It also has an `ipfsData` property, which can only be updated by the `owner`, which is set when it is deployed (`function Market`). More on IPFS later.
+This is a basic registry Smart Contract written in solidity. It allows anyone to `register` an address, which gets added to a `mapping` called `items`. It also has an `ipfsData` property, which can only be updated by the `owner`, which is set when it is deployed (`function Market`). More on IPFS later.
 
 The package we added earlier caled `silencicero:solc` will automatically compile files ending in `.sol` and add them to the client for us, which lets us interact with them in the console. Let's have a look at it.
 
 *Pop open the chrome javascript console in developer tools*
-
 ```javascript
 Market
 // market contract object
@@ -195,7 +194,6 @@ Market
 In order to deploy this contract, we need to connect to our local geth node first. To do this let's create `client/web3init.js`.
 
 *web3init.js*
-
 ```javascript
 Meteor.startup(function () {
   // connect to provider
@@ -207,6 +205,7 @@ Meteor.startup(function () {
 
 Once Meteor restarts we'll be able to deploy the Market contract using the console.
 
+*in chrome console*
 ```javascript
 var myMarket = null;
 Market.new({data: Market.bytecode, gas: 3000000}, function (err, contract) {
@@ -230,7 +229,98 @@ Woohoo! Our contact is working!
 
 The next step is to tie this deployment into the UI and then list the registered addresses in a view.
 
-(TODO: continue from here)
+### Wire up in-browser deployment
+
+We're going do exactly what we did above (deploy the contract), but this time when a user clicks the 'Create a New Market' button on the landing page. Once the contract is mined we'll forward the user to that market's route.
+
+Modify the landing page markup; adding a class for the deploy event and showing a progress indicator.
+
+*landing.html*
+```html
+  {{#if TemplateVar.get "deploying"}}
+    <div class="row">
+      <p class='teal-text'>Deploying Market Contract...</p>
+      <div class="progress">
+        <div class="indeterminate"></div>
+      </div>
+    </div>
+  {{else}}
+    <!-- ... -->
+    <!-- Make sure we have `new-market` class on the new market button -->
+    <div class="btn-large waves-effect waves-light light-blue new-market">Create a new Market</div>
+    <!-- ... -->
+  {{/if}}
+```
+
+Add deployment logic to the click event
+
+*landing.js*
+```javascript
+Template.landing.events({
+  'click .new-market': function (e, tmpl) {
+    // before starting let's update the UI to show a loading bar
+    TemplateVar.set('deploying', true)
+    // deploy the contract
+    Market.new({
+      // send bytecode in deploy step
+      data: Market.bytecode,
+      // max-out gas for now to avoid errors
+      gas: 3000000
+    }, function (err, contract) {
+      // this callback fires multiple times
+      // alert user if there's a problem
+      if (err) {
+        // update the template data to hide the
+        TemplateVar.set(tmpl, 'deploying', false)
+        window.alert(err)
+      }
+      // if there is no error we shold get a second callback
+      // the `address` property will exist after the contract is mined
+      if (contract.address) {
+        FlowRouter.go('market', {address: contract.address})
+      }
+    })
+  }
+})
+```
+
+Finally let's create a new market tempalte and wire it up to the router, so it can be reidrected to after contract is created. In the `views` folder, create two new files:
+
+*market.html*
+```handlebars
+<template name="market">
+  <h3>Market Route</h3>
+  <p>Address: {{address}}</p>
+</template>
+```
+
+*market.js*
+```javascript
+Template.market.helpers({
+  address: function () {
+    return FlowRouter.getParam('address')
+  }
+})
+```
+
+Then wire up this new template to `/market/:address`
+
+*router.js*
+```javascript
+FlowRouter.route('/market/:address', {
+  // set a name for this route
+  name: 'market',
+  action: function () {
+    BlazeLayout.render('mainLayout', {main: 'market'})
+  }
+})
+```
+
+Now we can click the 'create new market button' and you should see a beautiful loading bar followed by an ugly new market route.
+
+### Build out the market route
+
+TODO: Continue from here
 
 ---
 
