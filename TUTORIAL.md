@@ -252,7 +252,7 @@ Modify the landing page markup; adding a class for the deploy event and showing 
   {{/if}}
 ```
 
-Add deployment logic to the click event
+Add deployment logic to the click event. While we're at it we might as well wire up the `submit form` event so users can navigate to an existing market
 
 *landing.js*
 ```javascript
@@ -280,6 +280,13 @@ Template.landing.events({
         FlowRouter.go('market', {address: contract.address})
       }
     })
+  },
+  'submit form': function (e, tmpl) {
+    e.preventDefault()
+    var address = $('input', e.target).val()
+    if (address) {
+      FlowRouter.go('market', {address: address})
+    }
   }
 })
 ```

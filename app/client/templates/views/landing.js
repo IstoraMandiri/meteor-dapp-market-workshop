@@ -22,5 +22,12 @@ Template.landing.events({
         FlowRouter.go('market', {address: contract.address})
       }
     })
+  },
+  'submit form': function (e, tmpl) {
+    e.preventDefault()
+    var address = $('input', e.target).val()
+    if (address) {
+      FlowRouter.go('market', {address: address})
+    }
   }
 })
