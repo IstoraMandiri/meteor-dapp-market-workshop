@@ -1,5 +1,5 @@
 {
   "standard": {
-    "globals": [ "BlazeLayout", "FlowRouter", "Meteor"]
+    "globals": [ "web3", "BlazeLayout", "FlowRouter", "Meteor"]
   }
 }
