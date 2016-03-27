@@ -1,0 +1,16 @@
+// sticky footer
+html{
+  height:100%;
+}
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+main {
+  flex: 1 0 auto;
+}
+
+.btn-block{
+  width:100%;
+}
