@@ -1,9 +1,4 @@
-# Workshop
-
-## Trying out Mist wallet
-
-* Talk through the interface
-* Demo Mist browser (built with electron)
+# EthMart Tutorial
 
 ## Installing prerequisites
 
@@ -25,7 +20,7 @@ cd app;
 rm ./*;
 ```
 
-### Add somme packages
+### Add some packages
 
 Let's get some community packages for use with the app. Run the following:
 
@@ -91,7 +86,37 @@ Create `client/templates/layouts/mainLayout.html`. This is the main layout which
 </template>
 ```
 
-Take a look at `client/components/footer.html` and `navbar.html`. For the navbar and footer templates.
+Take a look at `client/components/footer.html` and `navbar.html` for the navbar and footer templates.
+
+We'll also add the landing page itself over at `client/templates/views/landing/landing.html`.
+
+*landing.html*
+
+```handlebars
+<template name="landing">
+  <br><br>
+  <h1 class="header center orange-text">Welcome to EthMart</h1>
+  <div class="row center">
+    <h5 class="header col s12 light">A Decentralised Marketplace built on Ethereum</h5>
+  </div>
+  <div class="row center">
+    <form class="row">
+      <div class="col s12 m9">
+        <input type="text" placeholder='Enter Market Address'>
+      </div>
+      <div class="col s12 m3">
+        <button class="btn btn-block waves-effect waves-light orange" type='submit'>Go</button>
+      </div>
+    </form>
+    <div class="row">
+      <p>- or -</p>
+    </div>
+    <div class="row">
+      <a href="#" class="btn-large waves-effect waves-light light-blue">Create a new Market</a>
+    </div>
+  </div>
+</template>
+```
 
 Now let's wire up these templates to the router.
 
@@ -107,13 +132,13 @@ FlowRouter.route('/', {
 })
 ```
 
-Fire up meteor and visit http://localhost:3000
+Fire up Meteor and visit http://localhost:3000.
 
 ```bash
 $ meteor
 ```
 
-You should see a lovely landing page, but it doesn't do anything yet. We need to be able to deploy a new market contract. But where is that contract? Let's write one.
+You should see a lovely landing page, but it doesn't do anything yet. We want to be able to deploy a new market contract. Let's write it!
 
 *client/contracts/Market.sol*
 
@@ -156,12 +181,15 @@ contract Market {
 }
 ```
 
-This is a basic registry Smart Contract written in solidity. It allows anyone to `register` address, which gets added to a `mapping` called `items`.
+This is a basic registry Smart Contract written in solidity. It allows anyone to `register` address, which gets added to a `mapping` called `items`. It also has an `ipfsData` property, which can only be updated by the `owner`, which is set when it is deployed (`function Market`). More on IPFS later.
 
 The package we added earlier caled `silencicero:solc` will automatically compile files ending in `.sol` and add them to the client for us, which lets us interact with them in the console. Let's have a look at it.
 
-```javascript
+*Pop open the chrome javascript console in developer tools*
 
+```javascript
+Market
+// market contract object
 ```
 
 In order to deploy this contract, we need to connect to our local geth node first. To do this let's create `client/web3init.js`.
@@ -170,14 +198,14 @@ In order to deploy this contract, we need to connect to our local geth node firs
 
 ```javascript
 Meteor.startup(function () {
-  // connect to provider and set default account
+  // connect to provider
   web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'))
-  // set the default account address
+  // set the default address; must have ether balance to deploy contracts
   web3.eth.defaultAccount = web3.eth.coinbase
 })
 ```
 
-Once meteor restarts we'll be able to deploy the Market contract.
+Once Meteor restarts we'll be able to deploy the Market contract using the console.
 
 ```javascript
 var myMarket = null;
@@ -200,13 +228,13 @@ myMarket.items.call(0)
 
 Woohoo! Our contact is working!
 
-The next step is to tie this deployment into the UI and then show the market items in a view.
+The next step is to tie this deployment into the UI and then list the registered addresses in a view.
 
 (TODO: continue from here)
 
 ---
 
-Let's add some components for better UX:
+Let's add some components for a better UX:
 
 ```
 current account / change account
