@@ -5,10 +5,16 @@
       "Template",
       "$",
       "web3",
+      "ipfs",
       "TemplateVar",
       "BlazeLayout",
       "FlowRouter",
       "Market"
     ]
+  },
+  "dependencies": {
+    "ipfs-js": "0.0.9",
+    "meteor-node-stubs": "^0.2.0",
+    "web3": "^0.15.3"
   }
 }

@@ -331,6 +331,23 @@ TODO: Continue from here
 
 ---
 
+IPFS
+```
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "http://localhost:3002", "http://localhost:5001"]'
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'
+ipfs daemon
+```
+
+Remember, after you're done to reset
+
+```
+ipfs config --json API.HTTPHeaders {}
+```
+
+
+---
+
 Let's add some components for a better UX:
 
 ```

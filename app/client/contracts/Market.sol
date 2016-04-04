@@ -4,7 +4,7 @@ contract Market {
   address public owner;
   mapping(uint => address) public items;
   uint public count;
-  bytes32 public ipfsData;
+  string public ipfsData;
 
   // modifiers can be 'attached' to other functions for convenience
   modifier onlyOnwer()
@@ -27,7 +27,7 @@ contract Market {
   }
 
   // only admins can set metadata
-  function setData(bytes32 ipfsHash)
+  function setData(string ipfsHash)
     onlyOnwer
   {
     ipfsData = ipfsHash;
