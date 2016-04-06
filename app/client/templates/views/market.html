@@ -20,20 +20,20 @@
     {{#each products}}
       <li class="collection-item avatar">
         {{#ipfsInfo config=.}}
-          <img src="http://localhost:5001/ipfs/{{image}}" alt="" class="circle">
+          <img src="{{image}}" alt="" class="circle">
           <div class="title">
-            <a href="/market/{{marketAddress}}/{{../address}}" class="href">{{title}}</a></div>
-          <br>
-          <small>{{../address}}</small>
-          <b></b>
+            <a href="/market/{{marketAddress}}/{{../address}}" class="href">
+              {{title}}
+              <br>
+              <small>{{../address}}</small>
+            </a>
+          </div>
           {{#markdown}}{{description}}{{/markdown}}
-          <h3>
-            {{title}} <br>
-          </h3>
+          <div class="secondary-content"><i class="material-icons">{{icon}}</i></div>
         {{/ipfsInfo}}
-        <p>Second Line</p>
-        <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
       </li>
+    {{else}}
+      <p class='flow-text center-align'>No products listed</p>
     {{/each}}
   </ul>
 </template>

@@ -7,6 +7,9 @@ const thisProduct = function () {
 }
 
 Template.product.helpers({
+  address: function () {
+    return FlowRouter.getParam('productAddress')
+  },
   ipfsInfoConfig: function () {
     const product = thisProduct()
     return {
