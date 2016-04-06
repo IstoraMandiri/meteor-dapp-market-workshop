@@ -14,9 +14,12 @@ contract Market {
   }
 
   // functions with the same name as the contract get invoked on deployment
-  function Market()
+  function Market(string IPFSHash)
   {
+    // set the owner address
     owner = msg.sender;
+    // set the default hash if it's provided
+    IPFSData = IPFSHash;
   }
 
   // anyone can register an address

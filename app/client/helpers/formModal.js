@@ -3,7 +3,6 @@
 // template - the form template
 // title - header of modal
 // data - data context for modal
-// buttonText - you guessed it
 
 app.formModal = function (args, callback) {
   if (!args.template) {
@@ -18,7 +17,7 @@ app.formModal = function (args, callback) {
       html: 'Cancel'
     }],
     rightButtons: [{
-      html: args.buttonText || 'Submit',
+      html: 'Submit',
       fn: function (e, tmpl) {
         // trigger HTML5 validation
         $(tmpl.find('input[type="submit"]')).click()
@@ -36,8 +35,14 @@ app.formModal = function (args, callback) {
   $thisModalForm.on('submit', function (e) {
     e.preventDefault()
     // by now we are valid
-    // callback with form data
-    callback(null, $thisModalForm.serializeJSON())
+    const data = $thisModalForm.serializeJSON()
+    if (args.ipfs) {
+      // push the data to ipfs
+      ipfs.addJson(data, callback)
+    } else {
+      // callback with form data
+      callback(null, data)
+    }
     // bye bye
     $thisModal.closeModal()
   })
