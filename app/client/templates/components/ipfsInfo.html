@@ -1,0 +1,28 @@
+<template name="ipfsInfo">
+  {{#if TemplateVar.get "loading"}}
+    <p>Loading...</p>
+  {{else}}
+
+    {{#if config.userIsOwner}}
+      <div class="row">
+        {{#if TemplateVar.get "updating"}}
+          <p class='teal-text center aligned'>Updating Metadata...</p>
+          <div class="progress">
+            <div class="indeterminate"></div>
+          </div>
+        {{else}}
+          <div class="btn teal edit-metadata">Edit Metadata</div>
+        {{/if}}
+      </div>
+    {{/if}}
+
+    {{#if TemplateVar.get "metadata"}}
+      {{#with TemplateVar.get "metadata"}}
+        {{> UI.contentBlock .}}
+      {{/with}}
+    {{else}}
+      <p>Couldn't fetch data.</p>
+    {{/if}}
+
+  {{/if}}
+</template>

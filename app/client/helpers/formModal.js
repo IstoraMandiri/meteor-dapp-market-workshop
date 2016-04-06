@@ -27,6 +27,8 @@ app.formModal = function (args, callback) {
   }
   // spawn the modal
   const $thisModal = EZModal(modalData)
+  // initialize materialize shizzle.
+  $('textarea', $thisModal).trigger('autoresize')
   // wire up HTML5 validation by injecting 'submit' element
   const $thisModalForm = $('.modal-content form', $thisModal)
   $thisModalForm.append('<input type="submit" class="hide"/>')

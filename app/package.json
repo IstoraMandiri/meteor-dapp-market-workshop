@@ -11,6 +11,7 @@
       "Meteor",
       "Template",
       "TemplateVar",
+      "UI",
       "web3"
     ]
   },

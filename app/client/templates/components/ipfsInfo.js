@@ -1,8 +1,13 @@
-Template.marketInfo.onCreated(function () {
-  this.market = Market.at(FlowRouter.getParam('address'))
+// this.config
+//  getDataMethod
+//  setDataMethod
+//  formTemplate
+//  formTitle
+
+Template.ipfsInfo.onCreated(function () {
   // call IPFS and get data
   this.getIPFSData = () => {
-    let ipfsHash = this.market.ipfsData.call()
+    let ipfsHash = this.data.config.getDataMethod.call()
     if (ipfsHash) {
       TemplateVar.set(this, 'loading', true)
       ipfs.catJson(ipfsHash, (err, json) => {
@@ -18,25 +23,20 @@ Template.marketInfo.onCreated(function () {
   this.getIPFSData()
 })
 
-Template.marketInfo.helpers({
-  userIsOwner: function () {
-    return web3.eth.defaultAccount === Template.instance().market.owner.call()
-  }
-})
-
 const handleError = function (err, tmpl) {
   if (err) {
+    // update the UI and throw an error
     TemplateVar.set(tmpl, 'error', err)
     throw err
   }
 }
 
-Template.marketInfo.events({
+Template.ipfsInfo.events({
   'click .edit-metadata': function (e, tmpl) {
     // create a new modal using the `marketInfoForm` template
     app.formModal({
-      template: 'marketInfoForm',
-      title: 'Update Market',
+      template: this.config.formTemplate,
+      title: this.config.formTitle,
       data: TemplateVar.get('metadata')
     }, (err, data) => {
       handleError(err, tmpl)
@@ -48,20 +48,16 @@ Template.marketInfo.events({
         // TODO: reflect update type in UI
         TemplateVar.set(tmpl, 'updating', 'eth')
         // create a transaction to update the contract with the new IPFS data hash
-        const txId = tmpl.market.setData(hash)
+        const txId = this.config.setDataMethod(hash)
         // start polling for the transaction confirmation
-        const interval = setInterval(() => {
-          // once we get a transaction receipt...
-          if (web3.eth.getTransactionReceipt(txId)) {
-            // stop polling
-            clearInterval(interval)
-            // and update the UI
-            TemplateVar.set(tmpl, 'updating', false)
-            TemplateVar.set(tmpl, 'editing', false)
-            // now trigger the template to update itself
-            tmpl.getIPFSData()
-          }
-        }, 500)
+        app.trackTransaction(txId, function (err, receipt) {
+          handleError(err, tmpl)
+          // wait until transaction is mined
+          TemplateVar.set(tmpl, 'updating', false)
+          TemplateVar.set(tmpl, 'editing', false)
+          // now trigger the template to update itself
+          tmpl.getIPFSData()
+        })
       })
     })
   }
