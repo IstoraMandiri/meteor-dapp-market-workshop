@@ -30,6 +30,11 @@ const handleError = function (err, tmpl) {
     throw err
   }
 }
+Template.ipfsInfo.helpers({
+  isUpdatable: function () {
+    return this.config.updateable && web3.eth.defaultAccount === this.config.owner
+  }
+})
 
 Template.ipfsInfo.events({
   'click .edit-metadata': function (e, tmpl) {

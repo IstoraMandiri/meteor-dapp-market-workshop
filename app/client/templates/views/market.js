@@ -1,19 +1,51 @@
-const thisAddress = function () {
-  return FlowRouter.getParam('address')
+app.getMarket = function (address) {
+  return Market.at(address)
+}
+
+const thisMarket = function () {
+  return app.getMarket(FlowRouter.getParam('address'))
 }
 
 Template.market.helpers({
-  address: thisAddress,
-  ipfsInfoConfig: function () {
-    const market = Market.at(thisAddress())
+  marketAddress: function () {
+    return FlowRouter.getParam('address')
+  },
+  marketInfo: function () {
+    const market = thisMarket()
     return {
       getDataMethod: market.IPFSData,
       setDataMethod: market.setIPFSData,
       formTemplate: 'marketInfoForm',
       formTitle: 'Update Market Information',
-      userIsOwner: function () {
-        return web3.eth.defaultAccount === market.owner.call()
-      }
+      updateable: true,
+      owner: market.owner.call()
     }
+  },
+  products: function () {
+    const market = thisMarket()
+    const marketCount = market.count().toNumber()
+    let products = []
+    for (let i = 0; i < marketCount; i++) {
+      const product = app.getProduct(market.items(i))
+      products.push({address: product.address, getDataMethod: product.IPFSData})
+    }
+    return products
+  }
+})
+
+Template.market.events({
+  'click .new-product': function (e, tmpl) {
+    const market = thisMarket()
+    app.deployContract({
+      tmpl: tmpl,
+      template: 'productInfoForm',
+      title: 'Create a new product',
+      contract: Purchase
+    }, function (err, address) {
+      if (err) { throw err }
+      FlowRouter.go('product', {marketAddress: FlowRouter.getParam('address'), productAddress: address})
+      // update the original market contract in the background
+      market.register(address)
+    })
   }
 })

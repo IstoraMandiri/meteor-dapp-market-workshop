@@ -3,10 +3,10 @@
     <p>Loading...</p>
   {{else}}
 
-    {{#if config.userIsOwner}}
-      <div class="row">
+    {{#if isUpdatable}}
+      <div class="row right-align">
         {{#if TemplateVar.get "updating"}}
-          <p class='teal-text center aligned'>Updating Metadata...</p>
+          <p class='teal-text'>Updating Metadata...</p>
           <div class="progress">
             <div class="indeterminate"></div>
           </div>
@@ -16,13 +16,11 @@
       </div>
     {{/if}}
 
-    {{#if TemplateVar.get "metadata"}}
-      {{#with TemplateVar.get "metadata"}}
-        {{> UI.contentBlock .}}
-      {{/with}}
+    {{#with TemplateVar.get "metadata"}}
+      {{> UI.contentBlock .}}
     {{else}}
-      <p>Couldn't fetch data.</p>
-    {{/if}}
+     <p>Couldn't fetch data.</p>
+    {{/with}}
 
   {{/if}}
 </template>

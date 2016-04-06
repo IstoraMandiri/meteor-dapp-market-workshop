@@ -22,21 +22,22 @@
 // A more complex version of this contract could include an arbitrator who
 // can be called if Alice and Bob cannot resolve their dispute.
 
-contract Purchase
-{
+contract Purchase {
     uint public value;
     address public seller;
     address public buyer;
     enum State { Created, Locked, Inactive }
     State public state;
+    string public IPFSData;
 
     /// Create a new locked purchase about
     /// `msg.value / 2` Wei.
-    function Purchase()
+    function Purchase(string IPFSHash)
         require(msg.value % 2 == 0)
     {
         seller = msg.sender;
         value = msg.value / 2;
+        IPFSData = IPFSHash;
     }
 
     modifier require(bool _condition)
@@ -113,5 +114,14 @@ contract Purchase
         state = State.Inactive;
         Refunded();
     }
+
+    // only admins can set metadata
+    function setIPFSData(string IPFSHash)
+        onlySeller
+    {
+        IPFSData = IPFSHash;
+    }
+
+
     function() { throw; }
 }

@@ -13,3 +13,10 @@ FlowRouter.route('/market/:address', {
     BlazeLayout.render('mainLayout', {main: 'market'})
   }
 })
+
+FlowRouter.route('/market/:marketAddress/:productAddress', {
+  name: 'product',
+  action: function () {
+    BlazeLayout.render('mainLayout', {main: 'product'})
+  }
+})

@@ -1,11 +1,41 @@
 <template name="market">
   <br>
-  {{#ipfsInfo config=ipfsInfoConfig}}
+  {{#if TemplateVar.get "deploying"}}
+    <div class="row">
+      <p class='teal-text'>Deploying New Product Contract...</p>
+      <div class="progress">
+        <div class="indeterminate"></div>
+      </div>
+    </div>
+  {{else}}
+    <div class="left btn orange new-product">New Product</div>
+  {{/if}}
+  {{#ipfsInfo config=marketInfo}}
     <h3>
       {{title}} <br> <small>{{address}}</small>
     </h3>
     {{#markdown}}{{description}}{{/markdown}}
   {{/ipfsInfo}}
+  <ul class="collection">
+    {{#each products}}
+      <li class="collection-item avatar">
+        {{#ipfsInfo config=.}}
+          <img src="http://localhost:5001/ipfs/{{image}}" alt="" class="circle">
+          <div class="title">
+            <a href="/market/{{marketAddress}}/{{../address}}" class="href">{{title}}</a></div>
+          <br>
+          <small>{{../address}}</small>
+          <b></b>
+          {{#markdown}}{{description}}{{/markdown}}
+          <h3>
+            {{title}} <br>
+          </h3>
+        {{/ipfsInfo}}
+        <p>Second Line</p>
+        <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+      </li>
+    {{/each}}
+  </ul>
 </template>
 
 <template name="marketInfoForm">
