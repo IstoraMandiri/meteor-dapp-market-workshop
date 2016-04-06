@@ -1,1 +1,3 @@
 app/node_modules
+scripts/blockchain/tmp
+nohup.out
