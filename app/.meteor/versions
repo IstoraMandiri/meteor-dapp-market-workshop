@@ -34,6 +34,7 @@ frozeman:persistent-minimongo@0.1.8
 frozeman:storage@0.1.9
 frozeman:template-var@1.2.3
 geojson-utils@1.0.6
+hitchcott:ez-modal@0.3.2
 hot-code-push@1.0.2
 html-tools@1.0.7
 htmljs@1.0.7

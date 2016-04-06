@@ -1,15 +1,17 @@
 {
   "standard": {
     "globals": [
+      "$",
+      "app",
+      "BlazeLayout",
+      "EZModal",
+      "FlowRouter",
+      "ipfs",
+      "Market",
       "Meteor",
       "Template",
-      "$",
-      "web3",
-      "ipfs",
       "TemplateVar",
-      "BlazeLayout",
-      "FlowRouter",
-      "Market"
+      "web3"
     ]
   },
   "dependencies": {

@@ -1,3 +1,5 @@
+window.app = window.app || {}
+
 import Web3 from 'web3'
 window.web3 = new Web3()
 
@@ -10,5 +12,8 @@ ipfs.setProvider()
 web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'))
 // set the default ethereum acocunt to coinbase
 web3.eth.defaultAccount = web3.eth.coinbase
-// tell market contract to use this instance of eth
-window.Market.eth = web3.eth
+
+Meteor.startup(function () {
+  // tell market contract to use this instance of eth
+  Market.eth = web3.eth
+})

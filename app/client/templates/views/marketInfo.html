@@ -1,48 +1,47 @@
 <template name="marketInfo">
-  {{#if userIsOwner}}
-    {{#if TemplateVar.get "editing"}}
-      <form>
-        <div class="row">
-          <div class="col input-field s12">
-            <input type="text" name="title" placeholder="Market Name" value="{{metadata.title}}">
-            <label for="name" class='active'>Market Name</label>
+  {{#if TemplateVar.get "loading"}}
+    <p>Loading...</p>
+  {{else}}
+    {{#if userIsOwner}}
+      <div class="row">
+        {{#if TemplateVar.get "updating"}}
+          <p class='teal-text center aligned'>Updating Market Metadata...</p>
+          <div class="progress">
+            <div class="indeterminate"></div>
           </div>
-          <div class="col input-field s12">
-            <textarea name="description" class="materialize-textarea" placeholder="Description (Markdown)">{{metadata.description}}</textarea>
-            <label for="description" class='active'>Description - Markdown Supported</label>
-          </div>
-
-        </div>
-        {{#unless TemplateVar.get "updating"}}
-          <button type='submit' class="btn btn green">Save Changes</button>
         {{else}}
-          <div class="row">
-            <p class='teal-text center aligned'>Saving Metadata...</p>
-            <div class="progress">
-              <div class="indeterminate"></div>
-            </div>
-          </div>
-        {{/unless}}
-      </form>
-    {{else}}
-      <div class="btn teal edit-metadata">Edit Market Metadata</div>
+          <div class="btn teal edit-metadata">Edit Market Metadata</div>
+        {{/if}}
+      </div>
     {{/if}}
-  {{/if}}
 
-  {{#unless TemplateVar.get "editing"}}
-    {{#if TemplateVar.get "loading"}}
-      <p>Loading...</p>
+    {{#if TemplateVar.get "metadata"}}
+      {{#with TemplateVar.get "metadata"}}
+        <h3>
+          {{title}} <br> <small>{{address}}</small>
+        </h3>
+        {{#markdown}}{{description}}{{/markdown}}
+      {{/with}}
     {{else}}
-      {{#if TemplateVar.get "metadata"}}
-        {{#with TemplateVar.get "metadata"}}
-          <h3>
-            {{title}} <br> <small>{{address}}</small>
-          </h3>
-          {{#markdown}}{{description}}{{/markdown}}
-        {{/with}}
-      {{else}}
-        <p>Couldn't fetch market metadata.</p>
-      {{/if}}
+      <p>Couldn't fetch market metadata.</p>
     {{/if}}
-  {{/unless}}
+
+  {{/if}}
+</template>
+
+<template name="marketInfoForm">
+  <form>
+    <div class="row">
+      <div class="col input-field s12">
+        <input type="text" name="title" class='validate' placeholder="Market Name" value="{{title}}" required="" aria-required="true">
+        <label for="name" class='active'>Market Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col input-field s12">
+        <textarea name="description" class="materialize-textarea  validate" placeholder="Description (Markdown)" required="" aria-required="true">{{description}}</textarea>
+        <label for="description" class='active'>Description - Markdown Supported</label>
+      </div>
+    </div>
+  </form>
 </template>
