@@ -40,6 +40,7 @@ Template.market.events({
       tmpl: tmpl,
       template: 'productInfoForm',
       title: 'Create a new product',
+      sendEther: true,
       contract: Purchase
     }, function (err, address) {
       if (err) { throw err }

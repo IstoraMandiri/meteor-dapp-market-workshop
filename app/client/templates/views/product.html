@@ -20,6 +20,18 @@
 
 <template name="productInfoForm">
   <form>
+    {{#if deploying}}
+      <div class="row">
+        <div class="col input-field s12">
+          <input class="eth-amount" type="number" placeholder="Product Cost in ETH" required>
+          <input name="sendAmount" type="hidden" value="{{sendAmount}}" required>
+          <label for="name" class='active'>Product Price</label>
+          {{#if TemplateVar.get 'sendAmount'}}
+            <p>Deposit price: <b>{{TemplateVar.get 'sendAmount'}} ETH</b></p>
+          {{/if}}
+        </div>
+      </div>
+    {{/if}}
     <div class="row">
       <div class="col input-field s12">
         <input name="title" type="text" placeholder="Product Name" value="{{title}}" required>
@@ -28,17 +40,17 @@
     </div>
     <div class="row">
       <div class="col input-field s6">
-        <input name="image" type="text" placeholder="Image URL" value="{{image}}" required>
+        <input name="image" type="text" placeholder="Image URL" value="{{image}}">
         <label for="name" class='active'>Image</label>
       </div>
       <div class="col input-field s6">
-        <input name="icon" type="text" placeholder="Materialize Icon" value="{{icon}}" required>
+        <input name="icon" type="text" placeholder="Materialize Icon" value="{{icon}}">
         <label for="name" class='active'><a href="http://materializecss.com/icons.html" target="_blank">Materialize</a> Icon</label>
       </div>
     </div>
     <div class="row">
       <div class="col input-field s12">
-        <textarea name="description" class="materialize-textarea" placeholder="Description" required>{{description}}</textarea>
+        <textarea name="description" class="materialize-textarea" placeholder="Description">{{description}}</textarea>
         <label for="description" class='active'>Description - Markdown Supported</label>
       </div>
     </div>

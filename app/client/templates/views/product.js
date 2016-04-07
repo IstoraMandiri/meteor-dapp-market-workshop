@@ -28,3 +28,17 @@ Template.product.events({
     FlowRouter.go('market', {address: FlowRouter.getParam('marketAddress')})
   }
 })
+
+Template.productInfoForm.helpers({
+  deploying: function () {
+    return FlowRouter.getRouteName() === 'market'
+  }
+})
+
+Template.productInfoForm.events({
+  'keyup .eth-amount': function (e, tmpl) {
+    const sendAmount = e.currentTarget.value * 2
+    TemplateVar.set('sendAmount', sendAmount)
+    tmpl.find('input[name="sendAmount"]').value = sendAmount
+  }
+})

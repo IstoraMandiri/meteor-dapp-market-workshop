@@ -35,14 +35,7 @@ app.formModal = function (args, callback) {
   $thisModalForm.on('submit', function (e) {
     e.preventDefault()
     // by now we are valid
-    const data = $thisModalForm.serializeJSON()
-    if (args.ipfs) {
-      // push the data to ipfs
-      ipfs.addJson(data, callback)
-    } else {
-      // callback with form data
-      callback(null, data)
-    }
+    callback(null, $thisModalForm.serializeJSON())
     // bye bye
     $thisModal.closeModal()
   })
