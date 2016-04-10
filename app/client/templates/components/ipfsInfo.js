@@ -32,7 +32,7 @@ const handleError = function (err, tmpl) {
 }
 Template.ipfsInfo.helpers({
   isUpdatable: function () {
-    return this.config.updateable && web3.eth.defaultAccount === this.config.owner
+    return this.config.updateable && app.getDefaultAddress() === this.config.owner
   },
   sendEther: function () {
     return this.config.sendEther
@@ -40,9 +40,6 @@ Template.ipfsInfo.helpers({
 })
 
 Template.ipfsInfo.events({
-  'keyup .eth-amount': function (e) {
-    console.log(e.currentTarget.value)
-  },
   'click .edit-metadata': function (e, tmpl) {
     // create a new modal using the `marketInfoForm` template
     app.formModal({

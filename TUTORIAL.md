@@ -345,6 +345,11 @@ Remember, after you're done to reset
 ipfs config --json API.HTTPHeaders {}
 ```
 
+### Accounts
+
+Let's talk about accounts. So far we've been just using one, and automatically having it be both the coinbase and the `defaultAccount`. But what if a user has more than one account? This is also useful for testing our new button, so let's implement accounts switching!
+
+First of all, though, we need to create a new account.
 
 ---
 

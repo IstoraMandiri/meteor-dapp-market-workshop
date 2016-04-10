@@ -3,19 +3,25 @@
   <div class="left btn grey back">Back</div>
   {{#ipfsInfo config=ipfsInfoConfig}}
     <div class="row">
-      <div class="col m4 s12">
+      <div class="col m5 s12 center-align">
         <img src="{{image}}" alt="" class="circle responsive-img">
+        {{> buyButton contract=contract}}
       </div>
-      <div class="col m8 s12">
+      <div class="col m7 s12">
         {{#if icon}}
           <i class="right large material-icons">{{icon}}</i>
         {{/if}}
         <h1>{{title}}</h1>
-        <h4>{{address}}</h4>
+        <h4 class='truncate'>{{address}}</h4>
         {{#markdown}}{{description}}{{/markdown}}
       </div>
     </div>
   {{/ipfsInfo}}
+  <div class="row">
+    <div class="col s12">
+
+    </div>
+  </div>
 </template>
 
 <template name="productInfoForm">
@@ -23,7 +29,7 @@
     {{#if deploying}}
       <div class="row">
         <div class="col input-field s12">
-          <input class="eth-amount" type="number" placeholder="Product Cost in ETH" required>
+          <input step='0.0001' class="eth-amount" type="number" placeholder="Product Cost in ETH" required>
           <input name="sendAmount" type="hidden" value="{{sendAmount}}" required>
           <label for="name" class='active'>Product Price</label>
           {{#if TemplateVar.get 'sendAmount'}}

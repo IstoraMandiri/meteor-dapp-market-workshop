@@ -10,10 +10,10 @@ window.ipfs = ipfs
 ipfs.setProvider()
 // connect to web3 client (local geth node)
 web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'))
-// set the default ethereum acocunt to coinbase
-web3.eth.defaultAccount = web3.eth.coinbase
 
 Meteor.startup(function () {
   // tell market contract to use this instance of eth
   Market.eth = web3.eth
+  // initialize eth accounts
+  EthAccounts.init()
 })

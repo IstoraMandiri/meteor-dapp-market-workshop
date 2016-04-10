@@ -16,7 +16,7 @@ ecmascript                      # Enable ECMAScript2015+ syntax in app code
 standard-minifier-css           # Meteor 1.3 minifier
 standard-minifier-js            # Meteor 1.3 minifier
 showdown                        # markdown rendering
-
+less                            # css preprocessor
 
 ethereum:accounts               # accounts info in collection + mongo api
 ethereum:tools                  # price ticker + balance format
@@ -27,3 +27,4 @@ kadira:blaze-layout             # templating
 materialize:materialize         # my favourite css framework for prototyping
 pcel:serialize                  # to help with forms
 hitchcott:ez-modal              # easy modals
+alexvandesande:identicon        # easy to recognise addresses

@@ -2,8 +2,11 @@
   "standard": {
     "globals": [
       "$",
+      "_",
       "app",
+      "blockies",
       "BlazeLayout",
+      "EthAccounts",
       "EZModal",
       "FlowRouter",
       "ipfs",
