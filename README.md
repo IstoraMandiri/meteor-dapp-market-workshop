@@ -18,7 +18,13 @@ Follow the tutorial (todo add link)
 
 ```
 - IPFS Image Upload
-- https://github.com/axic/ethereum-tokenescrow
+- Build for Mist
 - Write tutorial
 - Create a USB copy of the latest chaindata in case of someone not being sycned with mainnet.
+```
+
+## Icebox
+
+```
+- https://github.com/axic/ethereum-tokenescrow
 ```
