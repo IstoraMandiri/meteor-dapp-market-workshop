@@ -2,10 +2,11 @@
 
 This document will outline the steps that need to be taken to prepare.  We're going to install the following items:
 
+* Geth
+* Mist
 * IPFS
 * Meteor
 * Meteor-build-client
-* Geth
 
 This walk-through will cater for both Mac OSX and Ubuntu 14.04.
 
@@ -39,7 +40,45 @@ Once that's done - try testing it.
 geth --fast
 ```
 
-This will start up `geth` and connect to the ethereum mainnet. The `--fast` option will 'fast sync', which only downloads block headers and is therefore much faster. Syncing up with the mainnet is likely to take several hours if you have a fast internet connection (as of April 2016). Probably best not to do that as I'll bring recent chaindata with me.
+This will start up `geth` and connect to the ethereum mainnet. The `--fast` option will 'fast sync', which only downloads block headers and is therefore much faster. Syncing up with the mainnet is likely to take several hours if you have a fast internet connection (as of April 2016).
+
+Now check that you have the solidity compiler. In a new terminal window use `geth attach`, to attach to your local node.
+
+Then use:
+
+```
+eth.getCompilers()
+```
+
+You should see it return something like `['Solidity']`.
+
+If it does not, you'll need to install solidity. First kill `geth` and the attached console. Then:
+
+```
+// ubuntu
+sudo add-apt-repository ppa:ethereum/ethereum
+sudo apt-get update
+sudo apt-get install solc
+which solc
+
+// osx
+brew install cpp-ethereum
+brew linkapps cpp-ethereum
+which solc
+```
+
+## Mist
+
+Confusingly, Mist is two things:
+
+* An Ethereum Wallet (latest public release)
+* A Dapp Browser (developers only now, to be publicly released with Metropolis)
+
+We should get both of these versions; one for making it easer to transfer Eth around, and one for seeing what our dapp might look like to a typical user in the future.
+
+For the publicly released version, download the latest binary from https://github.com/ethereum/mist/releases.
+
+To clone the development version, simply `git clone https://github.com/ethereum/mist`. We'll do the rest later.
 
 ## Meteor
 
@@ -52,7 +91,7 @@ For now, just install Meteor:
 curl https://install.meteor.com/ | sh
 ```
 
-### Meteor-Build-Client
+## Meteor-Build-Client
 
 `meteor-build-client` will enable us to package our Meteor app into client-only files. More on this later.
 
