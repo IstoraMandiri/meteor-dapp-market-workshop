@@ -4,7 +4,7 @@ This document contains a collection of links on the topic of Blockchain and Ethe
 
 I've separated this list into selection of recommended introductory articles, followed by the full list of references to learn more about a particular topic. I'll also include any miscellaneous interesting links at the end.
 
-## Recommended Reading
+## Recommended Pre-Reading
 
 The following articles are recommended as a means of acquiring background context to the workshop and should be understandable without any prior knowledge.
 
@@ -14,9 +14,9 @@ The following articles are recommended as a means of acquiring background contex
 
 If you'd like to see what's going on in the world Ethereum dapps, check out [state of the dapps](http://dapps.ethercasts.com/). Hopefully by the end of this workshop you'll be able to add your own dapps to the list!
 
-## Topic Specific Reading List
+## Further Topic Specific Reading and References
 
-Here's a bigger collection on more specific topics for your reading pleasure.
+If you are particularly interested in reading up on a particular topic, check the list below - no need to pre-read all of this!
 
 * Blockchain Tech [1](https://bitsonblocks.net/2015/09/09/a-gentle-introduction-to-blockchain-technology/) [2](http://blockstrap.com/en/a-complete-beginners-guide-to-blockchain-technology/)
 * Permissioned vs Permissionless ? [1](https://bitsonblocks.net/2015/12/01/the-pros-and-cons-of-internal-blockchains/)

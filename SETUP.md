@@ -9,9 +9,11 @@ This document will outline the steps that need to be taken to prepare.  We're go
 * Meteor (JavaScript Framework)
 * Meteor-build-client (for bundling Meteor)
 
+---
+
 This walk-through will cater for both Mac OSX and Ubuntu 14.04.
 
-Windows users: please use a virtual machine for the sake of this workshop. There's no reason you can't run all the following natively on Windows, but there may be edge cases cases, and documentation isn't as good for Windows.
+Windows users: [please use a virtual machine](http://www.psychocats.net/ubuntu/virtualbox) for the sake of this workshop. There's no reason you can't run all the following natively on Windows, but there may be edge cases cases, and documentation isn't as good for Windows.
 
 ## Geth
 
