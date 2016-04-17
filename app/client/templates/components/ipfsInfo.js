@@ -33,9 +33,6 @@ const handleError = function (err, tmpl) {
 Template.ipfsInfo.helpers({
   isUpdatable: function () {
     return this.config.updateable && app.getDefaultAddress() === this.config.owner
-  },
-  sendEther: function () {
-    return this.config.sendEther
   }
 })
 

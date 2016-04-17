@@ -1,9 +1,5 @@
-app.getMarket = function (address) {
-  return Market.at(address)
-}
-
 const thisMarket = function () {
-  return app.getMarket(FlowRouter.getParam('address'))
+  return Market.at(FlowRouter.getParam('address'))
 }
 
 Template.market.helpers({
@@ -40,7 +36,6 @@ Template.market.events({
       tmpl: tmpl,
       template: 'productInfoForm',
       title: 'Create a new product',
-      sendEther: true,
       contract: Purchase
     }, function (err, address) {
       if (err) { throw err }

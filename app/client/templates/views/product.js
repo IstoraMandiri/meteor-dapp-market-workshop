@@ -1,9 +1,5 @@
-app.getProduct = function (address) {
-  return Purchase.at(address)
-}
-
 const thisProduct = function () {
-  return app.getProduct(FlowRouter.getParam('productAddress'))
+  return Purchase.at(FlowRouter.getParam('productAddress'))
 }
 
 Template.product.helpers({
@@ -40,6 +36,5 @@ Template.productInfoForm.events({
   'keyup .eth-amount': function (e, tmpl) {
     const sendAmount = e.currentTarget.value * 2
     TemplateVar.set('sendAmount', sendAmount)
-    tmpl.find('input[name="sendAmount"]').value = sendAmount
   }
 })

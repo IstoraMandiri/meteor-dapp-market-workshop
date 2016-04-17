@@ -14,13 +14,11 @@
         {{/if}}
       </div>
     {{/if}}
-
     <div class="clearfix"></div>
     {{#with TemplateVar.get "metadata"}}
       {{> UI.contentBlock .}}
     {{else}}
      <p>Couldn't fetch data.</p>
     {{/with}}
-
   {{/if}}
 </template>

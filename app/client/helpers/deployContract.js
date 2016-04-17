@@ -1,11 +1,3 @@
-// returns a newly deployed contract address
-// args:
-
-// tmpl
-// template
-// title
-// contract
-
 const handleError = function (err) {
   if (err) {
     EZModal(err.toString())
