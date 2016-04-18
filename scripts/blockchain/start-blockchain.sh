@@ -3,22 +3,38 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ACCOUNT_PASSWORD="$(cat "${DIR}/password")"
 NOHUP_LOCATION="${DIR}/nohup.out"
 
+NETWORK_ID=$1;
+IDENTITY=$2;
+
+tmpdir="tmp${NETWORK_ID}"
+
 # create start scripts
 baseCommand="geth \
---dev \
---datadir=${DIR}/tmp/ \
---logfile=${DIR}/tmp/blockchain.log \
+--datadir=${DIR}/${tmpdir}/ \
+--logfile=${DIR}/${tmpdir}/blockchain.log \
 --rpc \
 --rpcaddr localhost \
 --rpccorsdomain \"*\" \
 --genesis=${DIR}/genesis.json \
 --password ${DIR}/password"
+
+# append network id if it's set, disable dev mode
+if [ $NETWORK_ID ]; then
+  baseCommand+=" --networkid $NETWORK_ID"
+  if [ $IDENTITY ]; then
+    baseCommand+=" --identity $IDENTITY"
+  fi
+else
+  baseCommand+=" --dev"
+fi
+
+echo $baseCommand
 # append account details
 accountList="${baseCommand} account list"
 accountNew="${baseCommand} account new"
 
 # create temp directory and empty log file
-mkdir -p "${DIR}/tmp/" && touch "${DIR}/tmp/blockchain.log"
+mkdir -p "${DIR}/${tmpdir}/" && touch "${DIR}/${tmpdir}/blockchain.log"
 
 # check if we have any accounts
 if [[ "$(${accountList})" =~ \{([^}]*)\} ]]; then
