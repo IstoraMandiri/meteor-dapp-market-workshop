@@ -22,7 +22,7 @@ Template.market.helpers({
     const marketCount = market.count().toNumber()
     let products = []
     for (let i = 0; i < marketCount; i++) {
-      const product = app.getProduct(market.items(i))
+      const product = Purchase.at(market.items(i))
       products.push({address: product.address, getDataMethod: product.IPFSData})
     }
     return products

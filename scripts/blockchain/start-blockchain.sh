@@ -52,7 +52,11 @@ else
 fi
 
 # create minin command
-miningScript="${baseCommand} --unlock ${ETH_ACCOUNT} js ${DIR}/miner.js"
+miningScript="${baseCommand} --unlock ${ETH_ACCOUNT}"
+
+if [ ! $NETWORK_ID ]; then
+  miningScript+=" js ${DIR}/miner.js"
+fi
 
 function cleanup () {
   echo ' Interrupted: killing geth'
