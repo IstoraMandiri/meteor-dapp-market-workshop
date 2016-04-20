@@ -12,16 +12,17 @@ This tutorial was designed for Mac OSX or Ubuntu. Please complete the setup guid
 
 We're going to start from scratch and be guided through follow the following main steps:
 
-0. Spec-out our Project
-1. Initialize our project with Meteor
-2. Implement a Routing System
-4. Create a Reusable Contract Deployment Component
-3. Create a Reusable IPFS Data Component
-5. Hook up Market Deployment
-6. Create the Market View and Product Listing
-7. Hook up Product Deployment
-8. Create the Product View 
-9. Create the 'Buy Button' Component
+0. Specification
+1. Initialise your Meteor Project
+2. Connecting to an Ethereum Testnet
+3. Market Smart Contract
+4. Routing
+5. Deployment UI
+6. Market Metadata - IPFS
+7. Create a Reusable Deploy Step
+8. Deploying Products
+9. Product Listings
+10. Accounts Switching
 
 ## 0. Specification
 
@@ -312,7 +313,7 @@ Woohoo! Our contact is working!
 
 But we can't have our users deploy their markets using the console. The next step is to tie the contract into our UI.
 
-## 5. Routing
+## 4. Routing
 
 Now it's time to start building out the user interface of our dapp. We'll start by create a main **layout** and then some **routes** which will render our **views**.
 
@@ -461,7 +462,7 @@ You should now be welcomed by your landing page and you can now visit all 3 rout
 
 As you can see Meteor makes it very simple to start developing single page applications. We've got an underlying structure for our app and can build out from here with business logic and UI.
 
-## 6. Deployment UI
+## 5. Deployment UI
 
 Remember above when we deployed the Market contract from the JS console? We're going do exactly that, but this time when a user clicks on a 'Create a New Market' button on the landing page. Once the contract is mined we'll automatically forward the user to that market's route.
 
@@ -563,7 +564,7 @@ var myMarket = Market.at('0x123...def')
 myMarket.register("0x123",{gas:3000000})
 ```
 
-## 7. Market Metadata - IPFS
+## 6. Market Metadata - IPFS
 
 This section is big. Pour yourself a coffee. If you want to skip this step, you can do TODO. 
 
@@ -931,7 +932,7 @@ Template.market.helpers({
 
 Testing this out, we can now deploy markets and dynamically edit their metadata!
 
-## 8. Create a Reusable Deploy Step
+## 7. Create a Reusable Deploy Step
 
 So now we have a nice reusable IPFS form editor, the next logical thing to do is deploy our `Purchase` contracts into market products. That logic is going to look extremely similar to what we did earlier on the landing page. 
 
@@ -1010,7 +1011,7 @@ app.deployContract = function (args, callback) {
 
 As you can see, we're pulling out the `new` method (for deploying) and combining it with the `formModal`, with a similar IPFS hash getter as before. Now whenever we deploy a contract we just need to use logic similar to `landing.js`.
 
-## 9. Deploying Products
+## 8. Deploying Products
 
 Speaking of deploying other contracts - our market need some products. Luckily all the work we did decoupling the deploy step will pay off here, as we simply need to call it again with different parameters to deploy the contract.
 
@@ -1309,7 +1310,7 @@ Template.product.events({
 })
 ```
 
-## 10. Product Listings
+## 9. Product Listings
 
 Now we need to list the items in a market. We can do this by simply calling the market contract whenever we land on the market template.
 
