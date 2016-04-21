@@ -4,20 +4,29 @@
   <div class="row center">
     <h5 class="header col s12 light">A Decentralised Marketplace built on Ethereum</h5>
   </div>
-  <div class="row center">
-    <form class="row">
-      <div class="col s12 m9">
-        <input type="text" placeholder='Enter Market Address'>
+  {{#if TemplateVar.get "deploying"}}
+    <div class="row center">
+      <p class="teal-text">Deploying Market Contract...</p>
+      <div class="progress">
+        <div class="indeterminate"></div>
       </div>
-      <div class="col s12 m3">
-        <button class="btn btn-block waves-effect waves-light orange" type='submit'>Go</button>
+    </div>
+  {{else}}
+    <div class="row center">
+      <form class="row">
+        <div class="col s12 m9">
+          <input type="text" placeholder='Enter Market Address'>
+        </div>
+        <div class="col s12 m3">
+          <button class="btn btn-block waves-effect waves-light orange" type='submit'>Go</button>
+        </div>
+      </form>
+      <div class="row">
+        <p>- or -</p>
       </div>
-    </form>
-    <div class="row">
-      <p>- or -</p>
+      <div class="row">
+        <div class="btn-large waves-effect waves-light light-blue new-market">Create a new Market</div>
+      </div>
     </div>
-    <div class="row">
-      <div class="btn-large waves-effect waves-light light-blue new-market">Create a new Market</div>
-    </div>
-  </div>
+  {{/if}}
 </template>
