@@ -6,6 +6,10 @@ import Web3 from 'web3'
 window.web3 = new Web3()
 // set the provider to our local dev node
 web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'))
+// init ipfs
+import ipfs from 'ipfs-js'
+window.ipfs = ipfs
+ipfs.setProvider()
 
 // use coinbase as `defaultAccount`
 Meteor.startup(function () {

@@ -5,7 +5,8 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "meteor-node-stubs": "~0.2.0",
+    "ipfs-js": "0.0.9",
+    "meteor-node-stubs": "^0.2.3",
     "web3": "^0.15.3"
   }
 }

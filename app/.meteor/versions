@@ -42,6 +42,7 @@ kadira:flow-router@2.11.0
 launch-screen@1.0.11
 livedata@1.0.18
 logging@1.0.12
+markdown@1.0.9
 materialize:materialize@0.97.5
 meteor@1.1.14
 meteor-base@1.0.4
@@ -65,6 +66,7 @@ reactive-var@1.0.9
 reload@1.1.8
 retry@1.0.7
 routepolicy@1.0.10
+showdown@1.0.8
 silentcicero:solc@0.4.3
 spacebars@1.0.11
 spacebars-compiler@1.0.11
