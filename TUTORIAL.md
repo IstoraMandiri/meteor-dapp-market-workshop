@@ -12,19 +12,19 @@ This tutorial was designed for Mac OSX or Ubuntu. Please complete the setup guid
 
 We're going to start from scratch and be guided through follow the following main steps:
 
-* [0. Specification](#0. Specification)
-* [1. Initialise your Meteor Project](#1. Initialise your Meteor Project)
-* [2. Connecting to an Ethereum Testnet](#2. Connecting to an Ethereum Testnet)
-* [3. Market Smart Contract](#3. Market Smart Contract)
-* [4. Routing](#4. Routing)
-* [5. Deployment UI](#5. Deployment UI)
-* [6. Market Metadata - IPFS](#6. Market Metadata - IPFS)
-* [7. Create a Reusable Deploy Step](#7. Create a Reusable Deploy Step)
-* [8. Deploying Products](#8. Deploying Products)
-* [9. Product Listings](#9. Product Listings)
-* [10. Accounts Switching](#10. Accounts Switching)
-* [11. The buy button](#11. The buy button)
-* [∞. Future Features](#∞. Future Features)
+* [0. Specification](#0-specification)
+* [1. Initialise your Meteor Project](#1initialise-your-meteor-project)
+* [2. Connecting to an Ethereum Testnet](#2-connecting-to-an-ethereum-testnet)
+* [3. Market Smart Contract](#3-market-smart-contract)
+* [4. Routing](#4-routing)
+* [5. Deployment UI](#5-deployment-ui)
+* [6. Market Metadata - IPFS](#6-market-metadata---ipfs)
+* [7. Create a Reusable Deploy Step](#7-create-a-reusable-deploy-step)
+* [8. Deploying Products](#8-deploying-products)
+* [9. Product Listings](#9-product-listings)
+* [10. Accounts Switching](#10-accounts-switching)
+* [11. The buy button](#11-the-buy-button)
+* [∞. Future Features](#-future-features-to-implement)
 
 ## 0. Specification
 
