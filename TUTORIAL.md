@@ -52,6 +52,8 @@ So now we've described what our app is going to do, let's get to building it.
 
 ## 1. Initialise your Meteor Project
 
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/87261ae5e4ad779779438b6a5ca2a42c6fc6fc6e)
+
 To kick off, create a new Meteor project using the command line tool. Meteor will create a new project folder with some boilerplate files in, but we can remove them.
 
 ```bash
@@ -99,19 +101,41 @@ Using this structure in Meteor isn't essential, but it's a very common pattern, 
 Meteor is all about packages - standardized libraries for doing various cool things. There is a huge package ecosystem for Meteor - many specifically created for use with Ethereum. Usually we would add each package when we need it, but for the sake of speed let's add them all at the same time now.
 
 ```
-$ meteor remove autopublish insecure
-$ meteor add TODO LIST PACKAGES
+meteor remove autopublish insecure 
+meteor add showdown ethereum:accounts silentcicero:solc frozeman:template-var kadira:flow-router kadira:blaze-layout materialize:materialize pcel:serialize hitchcott:ez-modal
 ```
 
 Your `.meteor/packages` file should look like this (comments added):
 
 ```
-TODO ADD FINAL PACKAGE LIST
+meteor-base                     # Packages every Meteor app needs to have
+mobile-experience               # Packages for a great mobile UX
+mongo                           # The database Meteor supports right now
+blaze-html-templates            # Compile .html files into Meteor Blaze views
+reactive-var                    # Reactive variable for tracker
+jquery                          # Helpful client-side library
+tracker                         # Meteor's client-side reactive programming library
+standard-minifier-css           # CSS minifier run for production mode
+standard-minifier-js            # JS minifier run for production mode
+es5-shim                        # ECMAScript 5 compatibility for older browsers.
+ecmascript                      # Enable ECMAScript2015+ syntax in app code
+
+showdown                        # Markdown rendering
+ethereum:accounts               # accounts info in collection + mongo api
+silentcicero:solc               # solidity compiler
+frozeman:template-var           # reactive set/get scoped to template
+kadira:flow-router              # routing
+kadira:blaze-layout             # templating
+materialize:materialize         # my favourite css framework for prototyping
+pcel:serialize                  # to help with forms
+hitchcott:ez-modal              # easy modals
 ```
 
 You can find community-built packages for basically everything over at https://atmospherejs.com/
 
 ## 2. Connecting to an Ethereum Testnet
+
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/43901030e1fefbeb45986fcb92b1300fb7ca6ec1)
 
 We'll want to start looking at contracts and understanding how they fit in. But before we can properly interact with the contracts in our browser, we need to connect to an Ethereum node.
 
@@ -209,6 +233,8 @@ Great! We're connected.
 
 ## 3. Market Smart Contract
 
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/2e89ef8d02cf98c0c5bc91852440dca55cc96d56)
+
 Now we're connected we can start playing with Smart Contracts. We need to understand how they work and what their API is in order to build a relevant user interface.
 
 Go ahead and create our (more basic of the two) Market.sol contract:
@@ -262,6 +288,7 @@ This is a basic registry Smart Contract written in Solidity. It allows any Ether
 For metoer to understand how to deal with `.sol` files, let's add a new package:
 
 ```
+// you don't need to do this if you added all the packages in the beginning
 meteor add silentcicero:solc
 ```
 
@@ -317,6 +344,8 @@ But we can't have our users deploy their markets using the console. The next ste
 
 ## 4. Routing
 
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/ea402994b33c736c7a86e6f54e6965da81d4f6bb)
+
 Now it's time to start building out the user interface of our dapp. We'll start by create a main **layout** and then some **routes** which will render our **views**.
 
 ### A bit of Terminology
@@ -344,6 +373,7 @@ We'll be using the routing package `FlowRouter` to define our 3 **routes**, whic
 Before we begin, we need to add some packages:
 
 ```
+// you don't need to do this if you added all the packages in the beginning
 meteor add materialize:materialize kadira:flow-router kadira:blaze-layout frozeman:template-var
 ```
 
@@ -356,6 +386,7 @@ First we'll create the main layout which will container a header, footer and the
   {{> navbar}}
   <main>
     <div class="container">
+      <br>
       {{> Template.dynamic template=main}}
     </div>
   </main>
@@ -416,7 +447,7 @@ FlowRouter.route('/market/:marketAddress/:productAddress', {
 
 Now let's add placeholder views to be rendered at each route:
 
-`client/templates/view/landing.html`
+`client/templates/views/landing.html`
 
 ```handlebars
 <template name="landing">
@@ -443,13 +474,13 @@ Now let's add placeholder views to be rendered at each route:
   </div>
 </template>
 ```
-`client/templates/view/market.html`
+`client/templates/views/market.html`
 ```handlebars
 <template name="market">
   <p>Market View</p>
 </template>
 ```
-`client/templates/view/product.html`
+`client/templates/views/product.html`
 ```handlebars
 <template name="product">
   <p>Product View</p>
@@ -465,6 +496,8 @@ You should now be welcomed by your landing page and you can now visit all 3 rout
 As you can see Meteor makes it very simple to start developing single page applications. We've got an underlying structure for our app and can build out from here with business logic and UI.
 
 ## 5. Deployment UI
+
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/1fe5491beded0283fe80fa08152389bbb2785e7d)
 
 Remember above when we deployed the Market contract from the JS console? We're going do exactly that, but this time when a user clicks on a 'Create a New Market' button on the landing page. Once the contract is mined we'll automatically forward the user to that market's route.
 
@@ -492,7 +525,7 @@ The `{{#if TemplateVar ...` block will render if `deploying` is true. Otherwise,
 
 Let's add deployment logic to the `click` event.
 
-`client/templates/view/landing.js`
+`client/templates/views/landing.js`
 
 ```javascript
 Template.landing.events({
@@ -568,6 +601,8 @@ myMarket.register("0x123",{gas:3000000})
 
 ## 6. Market Metadata - IPFS
 
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/17b3617e4480392809707862af1ee906b2c25dfd)
+
 This section is big. Pour yourself a coffee. If you want to skip this step, you can do TODO. 
 
 The next requirement we need to implement is having a description for the market. Now, we could write all of our data to the Ethereum blockchain; embedded in the contract itself. This, unfortunately, has some downsides:
@@ -577,13 +612,13 @@ The next requirement we need to implement is having a description for the market
 
 Really, we want to save an arbitrary amount of data in potentially different formats; what if I want a High Definition video demo of the item I'm selling to appear next to the item? Way too big for the Ethereum public blockchain.
 
-For that reason, it makes more sense to saving a link to the data rather than the data itself. A URL is short but can contain a virtually infinite amount of content. If we wanted to, we could use a Web 2.0 URL, and have the app pull from that URL. But that's kind of a centralized solution and can be shut down - we'd also need to build a webservice for people uploading the content. It defeats the purpose of the app if we have any central point of failure.
+For that reason, it makes more sense to save a link to the data in the blockchain rather than the data itself. A URL is short but can contain a virtually infinite amount of content. If we wanted to, we could use a Web 2.0 URL, and have the app pull from that URL. But that's kind of a centralized solution and can be shut down - we'd also need to build a webservice for people uploading the content. It defeats the purpose of the app if we have any central point of failure.
 
 ### Introducing IPFS
 
 Luckily, we have an alternative: it's time for the InterPlanetary FileSystem (IPFS).
 
-You can learn more about IPFS in THEORY.md. Long story short, it's a magical system that can convert arbitrary data into a universally accessible hash. That hash is exactly 46 characters regardless of the data it contains. We can save that IPFS hash in the contract without having to worry about the amount of data being saved. Perfect!
+Long story short, it's a magical system that can convert arbitrary data into a universally accessible hash. That hash is exactly 46 characters regardless of the data it contains. We can save that IPFS hash in the contract without having to worry about the amount of data being saved. Perfect!
 
 Let's add IPFS to our project.
 
@@ -645,12 +680,13 @@ We'll structure this component into some logical elements:
 
 * `formModal.js` Spawns a popup containing a `<form>` and returns the forms' JSON data when submitted
 * `trackTransaction.js` A small helper for checking the status of the 'update ipfs hash' transaction
-* `ipfsInfo.js` Handles logic for retreiving data and updating contract (with option to pass in the methods)
+* `ipfsInfo.js` Handles logic for retreiving data and updating contract (with option to pass in the contract's methods)
 * `ipfsInfo.html` Shows a loading indicator and the IPFS data when it's loaded
 
 Our component will depend on a couple of packages; a helper for spawning modals, and a form serializer:
 
 ```
+// you don't need to do this if you added all the packages in the beginning
 meteor add hitchcott:ez-modal pcel:serialize
 ```
 
@@ -726,7 +762,7 @@ app.trackTransaction = function (txId, callback) {
 
 ### Block Helpers
 
-In Meteor there is the concept of 'Block Helpers'. They work like this:
+In Handlebars there is the concept of 'Block Helpers'. They work like this:
 
 ```handlebars
 <template name='myHelper'>
@@ -748,7 +784,7 @@ In Meteor there is the concept of 'Block Helpers'. They work like this:
 </template>
 ```
 
-Basically, they'll wrap a bit of content with some other template, a bit like an inline layout. The cool part is that we can program log into our block helper that injects data into the `contentBlock` we pass into it.
+Basically, they'll wrap a bit of content with some other template, a bit like an inline layout. The cool part is that we can program logic into our block helper that injects data into the `contentBlock` we pass into it.
 
 This is perfect for integrating something like, I dunno, a template that automatically pulls it's data from an IPFS hash.
 
@@ -881,6 +917,7 @@ What we end up is a nice interface for including IPFS data and making it easily 
 Let's implement it now. But first, markdown support!
 
 ```
+// you don't need to do this if you added all the packages in the beginning
 meteor add showdown
 ```
 
@@ -919,7 +956,7 @@ meteor add showdown
 ```javascript
 Template.market.helpers({
   marketInfo: function () {
-    const market = app.getMarket(FlowRouter.getParam('address'))
+    const market = Market.at(FlowRouter.getParam('address'))
     return {
       getDataMethod: market.IPFSData,
       setDataMethod: market.setIPFSData,
@@ -935,6 +972,8 @@ Template.market.helpers({
 Testing this out, we can now deploy markets and dynamically edit their metadata!
 
 ## 7. Create a Reusable Deploy Step
+
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/5e6613a458f1c622eb6a29d564701cb2fa1189e0)
 
 So now we have a nice reusable IPFS form editor, the next logical thing to do is deploy our `Purchase` contracts into market products. That logic is going to look extremely similar to what we did earlier on the landing page. 
 
@@ -1015,9 +1054,11 @@ As you can see, we're pulling out the `new` method (for deploying) and combining
 
 ## 8. Deploying Products
 
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/b46a44ffd0252228739c085ac9575480919845ce)
+
 Speaking of deploying other contracts - our market need some products. Luckily all the work we did decoupling the deploy step will pay off here, as we simply need to call it again with different parameters to deploy the contract.
 
-First let's add the *Purchase* aka *Escrow* aka *Product* contract itself:
+First let's add the *[Purchase][https://github.com/frozeman/example-escrow-dapp/blob/master/escrow.sol])* aka *Escrow* aka *Product* contract itself:
 
 `client/contracts/purchase.sol`
 
@@ -1176,17 +1217,7 @@ Let's add some markup - the form first:
 
 What's this `deploying` block? Basically, we're creating a special hidden field that will pass `sendAmount` to the `deployContract` method. That in turn becomes a web3 `value` parameter - which is used to send Ether to a contract. The escrow contract uses this amount as the seller's deposit, meaning the item's value should always be exactly half. We dynamically calculate this value as the user is typing.
 
-We've also added this 'icon' field, which we'll need to import materialize icons for:
-
-`client/head.html`
-
-```html
-<head>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-```
-
-It only gets called when `deploying` is true (when we're on a market route), so it isn't set when simply updating product metadata (on the product route).
+The block is only shown when `deploying` is true (when we're on a market route), so it isn't set when simply updating product metadata (on the product route).
 
 `client/templates/views/product.js`
 
@@ -1199,8 +1230,7 @@ Template.productInfoForm.helpers({
 
 Template.productInfoForm.events({
   'keyup .eth-amount': function (e, tmpl) {
-    const sendAmount = e.currentTarget.value * 2
-    TemplateVar.set('sendAmount', sendAmount)
+    TemplateVar.set('sendAmount', e.currentTarget.value * 2)
   }
 })
 ```
@@ -1260,7 +1290,6 @@ Let's fix up the product page with it's metadata:
 
 ```
 <template name="product">
-  <br>
   <div class="left btn grey back">Back</div>
   {{#ipfsInfo config=ipfsInfoConfig}}
     <div class="row">
@@ -1312,7 +1341,19 @@ Template.product.events({
 })
 ```
 
+We've also added an 'icon' field, which we'll need to import materialize icons for:
+
+`client/head.html`
+
+```html
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+```
+
 ## 9. Product Listings
+
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/113b8b60e5a8b0ad9b4c11ba9473a4358e09f25d)
 
 Now we need to list the items in a market. We can do this by simply calling the market contract whenever we land on the market template.
 
@@ -1342,26 +1383,30 @@ To get the product listings and metadata, we simply iterate from 0 up until the 
 `client/templates/views/market.html`
 
 ```handlebars
-<ul class="collection">
-  {{#each products}}
-    <li class="collection-item avatar">
-      {{#ipfsInfo config=.}}
-        <img src="{{image}}" alt="" class="circle">
-        <div class="title">
-          <a href="/market/{{marketAddress}}/{{../address}}" class="href">
-            {{title}}
-            <br>
-            <small>{{../address}}</small>
-          </a>
-        </div>
-        {{#markdown}}{{description}}{{/markdown}}
-        <div class="secondary-content"><i class="material-icons">{{icon}}</i></div>
-      {{/ipfsInfo}}
-    </li>
-  {{else}}
-    <p class='flow-text center-align'>No products listed</p>
-  {{/each}}
-</ul>
+<template name="market">
+  <!-- ... -->
+  <ul class="collection">
+    {{#each products}}
+      <li class="collection-item avatar">
+        {{#ipfsInfo config=.}}
+          <img src="{{image}}" alt="" class="circle">
+          <div class="title">
+            <a href="/market/{{marketAddress}}/{{../address}}" class="href">
+              {{title}}
+              <br>
+              <small>{{../address}}</small>
+            </a>
+          </div>
+          {{#markdown}}{{description}}{{/markdown}}
+          <div class="secondary-content"><i class="material-icons">{{icon}}</i></div>
+        {{/ipfsInfo}}
+      </li>
+    {{else}}
+      <p class='flow-text center-align'>No products listed</p>
+    {{/each}}
+  </ul>
+  <!-- ... -->
+</template>
 ```
 
 What's great here is that we can re-use our `ipfsInfo` block helper to render the IPFS data of the products as we iterate over them. As long as we don't pass `updateable` in config, the 'edit metadata' button will never show up.
@@ -1370,9 +1415,12 @@ Now this is hooked up, can now deploy markets and products and edit the metadata
 
 ## 10. Accounts Switching
 
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/5388467d45797fea36d8591091310495e9568403)
+
 We're almost ready to start buying and selling, but first let's create a way for the user to switch accounts. It's possible to have more than one account in `geth`, so instead of just defaulting to coinbase, let's make use of the `ethereum:accounts` package to allow users to switch which account is being used by our dapp: 
 
 ```
+// you don't need to do this if you added all the packages in the beginning
 meteor add ethereum:accounts
 ```
 
@@ -1387,7 +1435,7 @@ Meteor.startup(function () {
 
 `EthAccounts` will maintain a local minimongo collection, which lets us keep track of our accounts using the familiar Meteor way. We'll use this to create a dropdown of accounts and create our own accounts switching controller.
 
-`client/chelpers/defaultAccount.js`
+`client/helpers/defaultAccount.js`
 
 ```javascript
 app.setDefaultAccount = function (address) {
@@ -1521,16 +1569,30 @@ Template.ipfsInfo.helpers({
 To test this out, create a new account in your attached `geth` console:
 
 ```
+// create a new account and enter the password
+// don't forget the password, or use 'testing' 
 personal.newAccount()
+// check our coinbase balance
+eth.getBalance(eth.accounts[0])
+// check our new account balance -- oops! we don't have any eth :(
+eth.getBalance(eth.accounts[1])
+// let's send some from our coinbase account to the new account
+eth.sendTransaction({from:eth.accounts[0],to:eth.accounts[1],value:web3.toWei(3,'ether')})
+// 3 eth is on the way...
+eth.getBalance(eth.accounts[1])
+// if you want to make a transaction with the second account, you must unlock it
+personal.unlockAccount(eth.accounts[1])
 ```
 
 Now, in the app, we should have the ability to change accounts using the dropdown menu.
 
 ## 11. The Buy Button
 
+*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/c316e08e2093378f7451c5f3caaeb388d1846125)
+
 The final piece in the puzzle is the escrow contract. It's what makes the market possible. We have already deployed it, but now it's time to take a closer look at it's methods and what it actually does.
 
-We're using modified code that was (originally created here)[https://github.com/frozeman/example-escrow-dapp/blob/master/client/buyButton.js] to manage this.
+We're using modified code that was [originally created here](https://github.com/frozeman/example-escrow-dapp/blob/master/client/buyButton.js) to manage this.
 
 `client/templates/components/buyButton.html`
 
