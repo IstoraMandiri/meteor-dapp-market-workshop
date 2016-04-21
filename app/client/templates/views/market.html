@@ -15,6 +15,26 @@
     </h3>
     {{#markdown}}{{description}}{{/markdown}}
   {{/ipfsInfo}}
+  <ul class="collection">
+    {{#each products}}
+      <li class="collection-item avatar">
+        {{#ipfsInfo config=.}}
+          <img src="{{image}}" alt="" class="circle">
+          <div class="title">
+            <a href="/market/{{marketAddress}}/{{../address}}" class="href">
+              {{title}}
+              <br>
+              <small>{{../address}}</small>
+            </a>
+          </div>
+          {{#markdown}}{{description}}{{/markdown}}
+          <div class="secondary-content"><i class="material-icons">{{icon}}</i></div>
+        {{/ipfsInfo}}
+      </li>
+    {{else}}
+      <p class='flow-text center-align'>No products listed</p>
+    {{/each}}
+  </ul>
 </template>
 
 <template name="marketInfoForm">

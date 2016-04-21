@@ -1,3 +1,8 @@
+// keep it dry
+const thisMarket = function () {
+  return Market.at(FlowRouter.getParam('address'))
+}
+
 Template.market.helpers({
   marketInfo: function () {
     const market = Market.at(FlowRouter.getParam('address'))
@@ -9,13 +14,21 @@ Template.market.helpers({
       updateable: true,
       owner: market.owner.call()
     }
+  },
+  marketAddress: function () {
+    return FlowRouter.getParam('address')
+  },
+  products: function () {
+    const market = thisMarket()
+    const marketCount = market.count().toNumber()
+    let products = []
+    for (let i = 0; i < marketCount; i++) {
+      const product = Purchase.at(market.items(i))
+      products.push({address: product.address, getDataMethod: product.IPFSData})
+    }
+    return products
   }
 })
-
-// keep it dry
-const thisMarket = function () {
-  return Market.at(FlowRouter.getParam('address'))
-}
 
 Template.market.events({
   'click .new-product': function (e, tmpl) {
