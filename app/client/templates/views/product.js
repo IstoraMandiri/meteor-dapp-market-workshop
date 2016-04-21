@@ -3,6 +3,7 @@ const thisProduct = function () {
 }
 
 Template.product.helpers({
+  contract: thisProduct,
   address: function () {
     return FlowRouter.getParam('productAddress')
   },
