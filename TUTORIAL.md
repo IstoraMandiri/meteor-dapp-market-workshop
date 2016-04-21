@@ -52,7 +52,7 @@ So now we've described what our app is going to do, let's get to building it.
 
 ## 1. Initialise your Meteor Project
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/87261ae5e4ad779779438b6a5ca2a42c6fc6fc6e)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/87261ae5e4ad779779438b6a5ca2a42c6fc6fc6e)*
 
 To kick off, create a new Meteor project using the command line tool. Meteor will create a new project folder with some boilerplate files in, but we can remove them.
 
@@ -135,7 +135,7 @@ You can find community-built packages for basically everything over at https://a
 
 ## 2. Connecting to an Ethereum Testnet
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/43901030e1fefbeb45986fcb92b1300fb7ca6ec1)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/43901030e1fefbeb45986fcb92b1300fb7ca6ec1)*
 
 We'll want to start looking at contracts and understanding how they fit in. But before we can properly interact with the contracts in our browser, we need to connect to an Ethereum node.
 
@@ -233,7 +233,7 @@ Great! We're connected.
 
 ## 3. Market Smart Contract
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/2e89ef8d02cf98c0c5bc91852440dca55cc96d56)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/2e89ef8d02cf98c0c5bc91852440dca55cc96d56)*
 
 Now we're connected we can start playing with Smart Contracts. We need to understand how they work and what their API is in order to build a relevant user interface.
 
@@ -344,7 +344,7 @@ But we can't have our users deploy their markets using the console. The next ste
 
 ## 4. Routing
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/ea402994b33c736c7a86e6f54e6965da81d4f6bb)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/ea402994b33c736c7a86e6f54e6965da81d4f6bb)*
 
 Now it's time to start building out the user interface of our dapp. We'll start by create a main **layout** and then some **routes** which will render our **views**.
 
@@ -497,7 +497,7 @@ As you can see Meteor makes it very simple to start developing single page appli
 
 ## 5. Deployment UI
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/1fe5491beded0283fe80fa08152389bbb2785e7d)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/1fe5491beded0283fe80fa08152389bbb2785e7d)*
 
 Remember above when we deployed the Market contract from the JS console? We're going do exactly that, but this time when a user clicks on a 'Create a New Market' button on the landing page. Once the contract is mined we'll automatically forward the user to that market's route.
 
@@ -601,7 +601,7 @@ myMarket.register("0x123",{gas:3000000})
 
 ## 6. Market Metadata - IPFS
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/17b3617e4480392809707862af1ee906b2c25dfd)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/17b3617e4480392809707862af1ee906b2c25dfd)*
 
 This section is big. Pour yourself a coffee. If you want to skip this step, you can do TODO. 
 
@@ -973,7 +973,7 @@ Testing this out, we can now deploy markets and dynamically edit their metadata!
 
 ## 7. Create a Reusable Deploy Step
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/5e6613a458f1c622eb6a29d564701cb2fa1189e0)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/5e6613a458f1c622eb6a29d564701cb2fa1189e0)*
 
 So now we have a nice reusable IPFS form editor, the next logical thing to do is deploy our `Purchase` contracts into market products. That logic is going to look extremely similar to what we did earlier on the landing page. 
 
@@ -1054,7 +1054,7 @@ As you can see, we're pulling out the `new` method (for deploying) and combining
 
 ## 8. Deploying Products
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/b46a44ffd0252228739c085ac9575480919845ce)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/b46a44ffd0252228739c085ac9575480919845ce)*
 
 Speaking of deploying other contracts - our market need some products. Luckily all the work we did decoupling the deploy step will pay off here, as we simply need to call it again with different parameters to deploy the contract.
 
@@ -1353,7 +1353,7 @@ We've also added an 'icon' field, which we'll need to import materialize icons f
 
 ## 9. Product Listings
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/113b8b60e5a8b0ad9b4c11ba9473a4358e09f25d)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/113b8b60e5a8b0ad9b4c11ba9473a4358e09f25d)*
 
 Now we need to list the items in a market. We can do this by simply calling the market contract whenever we land on the market template.
 
@@ -1415,7 +1415,7 @@ Now this is hooked up, can now deploy markets and products and edit the metadata
 
 ## 10. Accounts Switching
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/5388467d45797fea36d8591091310495e9568403)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/5388467d45797fea36d8591091310495e9568403)*
 
 We're almost ready to start buying and selling, but first let's create a way for the user to switch accounts. It's possible to have more than one account in `geth`, so instead of just defaulting to coinbase, let's make use of the `ethereum:accounts` package to allow users to switch which account is being used by our dapp: 
 
@@ -1588,7 +1588,7 @@ Now, in the app, we should have the ability to change accounts using the dropdow
 
 ## 11. The Buy Button
 
-*[Diff]*(https://github.com/hitchcott/meteor-dapp-market-workshop/commit/c316e08e2093378f7451c5f3caaeb388d1846125)
+*[Diff](https://github.com/hitchcott/meteor-dapp-market-workshop/commit/c316e08e2093378f7451c5f3caaeb388d1846125)*
 
 The final piece in the puzzle is the escrow contract. It's what makes the market possible. We have already deployed it, but now it's time to take a closer look at it's methods and what it actually does.
 
