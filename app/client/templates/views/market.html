@@ -1,4 +1,14 @@
 <template name="market">
+  {{#if TemplateVar.get "deploying"}}
+    <div class="row">
+      <p class='teal-text'>Deploying New Product Contract...</p>
+      <div class="progress">
+        <div class="indeterminate"></div>
+      </div>
+    </div>
+  {{else}}
+    <div class="left btn orange new-product">New Product</div>
+  {{/if}}
   {{#ipfsInfo config=marketInfo}}
     <h3>
       {{title}} <br> <small>{{address}}</small>
@@ -23,3 +33,5 @@
     </div>
   </form>
 </template>
+
+
