@@ -12,17 +12,19 @@ This tutorial was designed for Mac OSX or Ubuntu. Please complete the setup guid
 
 We're going to start from scratch and be guided through follow the following main steps:
 
-0. Specification
-1. Initialise your Meteor Project
-2. Connecting to an Ethereum Testnet
-3. Market Smart Contract
-4. Routing
-5. Deployment UI
-6. Market Metadata - IPFS
-7. Create a Reusable Deploy Step
-8. Deploying Products
-9. Product Listings
-10. Accounts Switching
+* [0. Specification](#0. Specification)
+* [1. Initialise your Meteor Project](#1. Initialise your Meteor Project)
+* [2. Connecting to an Ethereum Testnet](#2. Connecting to an Ethereum Testnet)
+* [3. Market Smart Contract](#3. Market Smart Contract)
+* [4. Routing](#4. Routing)
+* [5. Deployment UI](#5. Deployment UI)
+* [6. Market Metadata - IPFS](#6. Market Metadata - IPFS)
+* [7. Create a Reusable Deploy Step](#7. Create a Reusable Deploy Step)
+* [8. Deploying Products](#8. Deploying Products)
+* [9. Product Listings](#9. Product Listings)
+* [10. Accounts Switching](#10. Accounts Switching)
+* [11. The buy button](#11. The buy button)
+* [∞. Future Features](#∞. Future Features)
 
 ## 0. Specification
 
@@ -1125,7 +1127,7 @@ contract Purchase {
 }
 ```
 
-We can look at these methods in detail a bit later. The important part is that we have `IPFSData` that gets set when constructed.
+We can look at these methods in detail a bit later (section 11). The important part is that we have `IPFSData` that gets set when constructed, identical to the Market contract.
 
 Let's add some markup - the form first:
 
@@ -1552,22 +1554,32 @@ We're using modified code that was (originally created here)[https://github.com/
 `client/templates/components/buyButton.js`
 
 ```javascript
+// thie function will be called whenever a new block is mined
+// it'll inject the template state with relevant variables
+
 var checkState = function (template) {
+  // get the `seller` address from the contract
   template.contract.seller(function (error, seller) {
     if (!error) {
+      // set the seller address
       TemplateVar.set(template, 'seller', seller)
     }
   })
+  // get the `buyer` address from the contract
   template.contract.buyer(function (error, buyer) {
     if (!error) {
+      //set the buyer address
       TemplateVar.set(template, 'buyer', buyer)
     }
   })
+  // get the value of the product
   template.contract.value(function (error, value) {
     if (!error) {
+      // set the value (in ether)
       TemplateVar.set(template, 'value', web3.fromWei(value, 'ether').toString(10))
     }
   })
+  // get the state itself (Created, Locked or Inactive)
   template.contract.state(function (error, state) {
     if (!error) {
       TemplateVar.set(template, 'state', +state)
@@ -1575,6 +1587,7 @@ var checkState = function (template) {
   })
 }
 
+// getUser will use `EthAccounts` to determine whether the current user is a seller or buyer
 var getUser = function () {
   var user = 'unknown'
 
@@ -1589,9 +1602,9 @@ var getUser = function () {
   return user
 }
 
+// this function maps the state to an object to populate the button content
 var states = function () {
   var value = TemplateVar.get('value') || 0
-
   return {
     seller: {
       0: {
@@ -1647,16 +1660,19 @@ var states = function () {
   }
 }
 
+// this is wrapper around the contract method
 var callContractMethod = function (tmpl, method, fromAddress, value) {
   if (!tmpl.contract || !_.isFunction(tmpl.contract[method])) {
     return
   }
-
+  // update the UI to show it's processing
   TemplateVar.set(tmpl, 'processing', true)
-
+  
+  // call the contact methods
   tmpl.contract[method]({
     from: fromAddress,
     value: web3.toWei(value, 'ether'),
+    // max out the gas
     gas: 3000000
   }, function (error, txHash) {
     if (!error) {
@@ -1669,6 +1685,8 @@ var callContractMethod = function (tmpl, method, fromAddress, value) {
   })
 }
 
+// `onCreated` event will set up the default state
+// it will also use `allEvents` to listen for state changes
 Template.buyButton.onCreated(function () {
   const tmpl = this
 
@@ -1680,7 +1698,7 @@ Template.buyButton.onCreated(function () {
   // attach contract to the template instance
   tmpl.contract = tmpl.data.contract
 
-  // Load the current contract state
+  // immediately get the current contract state
   checkState(tmpl)
 
   // crete an event handler watching relevant events
@@ -1694,6 +1712,7 @@ Template.buyButton.onCreated(function () {
   })
 })
 
+// kill the event handler when the template is removed from the DOM
 Template.buyButton.onDestroyed(function () {
   // stop listening to events when the template gets destroyed
   if (this.handler) {
@@ -1701,18 +1720,23 @@ Template.buyButton.onDestroyed(function () {
   }
 })
 
+// the `getState` helper returns the relevant content depending on the sate
+
 Template.buyButton.helpers({
   'getState': function (type) {
     return states()[getUser()][TemplateVar.get('state') || 0][type]
   }
 })
 
+// when the user clicks the button, we determine what action  to take
+// depending on whether they are a buyer or seller.
 Template.buyButton.events({
   'click .btn': function (e, tmpl) {
     const buyer = TemplateVar.get('buyer')
     const seller = TemplateVar.get('seller')
     const state = TemplateVar.get('state')
     const value = TemplateVar.get('value')
+    
     // is buyer
     if (EthAccounts.findOne({address: buyer, default: true})) {
       if (state === 1) {
@@ -1721,15 +1745,16 @@ Template.buyButton.events({
 
     // is seller
     } else if (EthAccounts.findOne({address: seller, default: true})) {
+      // cancel sale
       if (state === 0) {
         callContractMethod(tmpl, 'abort', seller)
       }
-
+      // initiate refund
       if (state === 1) {
         callContractMethod(tmpl, 'refund', seller)
       }
 
-    // is unknown
+    // is unknown -- neither seller or buyer ; purchase the product
     } else {
       if (state === 0) {
         callContractMethod(tmpl, 'confirmPurchase', app.getDefaultAddress(), value * 2)
@@ -1739,7 +1764,17 @@ Template.buyButton.events({
 })
 ```
 
-TODO explain this
+To best understand what this component does, please read the inline comments.
+
+Essentially, the Purchase contract has 3 states and different actions can be taken based on the user's address.
+
+| |Buyer|Seller|Unknown|
+|-|-|-|-|
+|**0 - Created** | - | Cancel | Purchase (Become Buyer) |
+|**1 - Locked** | Confirm Receipt | Refund | -
+|**2 - Inactive** | - | - | - |
+
+`buyButton.js` will update the UI and hook up the `click` events with the correct method based on the user's address.
 
 The final thing to do is add this `buyButton` component to our product page.
 
@@ -1758,14 +1793,27 @@ Template.product.helpers({
 })
 ```
 
-And we're done.
+And we're done! Congratulations on creating a decentralised marketplace using Ethereum + IPFS.
 
-# Future Features To Implement
+So what's next? This app is just designed to be a basic demo, but we could build out some more features to get it closer to a production-ready app.
 
-* Price Ticker
-* IPFS Image Upload
-* White-listed Marketplace
+## ∞. Future Features To Implement
+
+It's time to create your own fork and make this market even better!
+
+Here are some ideas:
+
 * Manage multiple orders with the same Purchase contract
-* EIP20 Support
+* EIP20 (Token) Support
+* Item state in the market list
+* Paginated market list
+* IPFS image upload
 * Identicon
-* Bitcoin Payments (shapeshift)
+* White-listed sellers in a Marketplace
+* A Price Ticker
+* Bitcoin Payments (via shapeshift)
+
+---
+
+MIT License, Hitchcott 2016
+
