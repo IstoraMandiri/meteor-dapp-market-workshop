@@ -1830,11 +1830,11 @@ To best understand what this component does, please read the inline comments.
 
 Essentially, the Purchase contract has 3 states and different actions can be taken based on the user's address.
 
-| |Buyer|Seller|Unknown|
-|-|-|-|-|
-|**0 - Created** | - | Cancel | Purchase (Become Buyer) |
-|**1 - Locked** | Confirm Receipt | Refund | -
-|**2 - Inactive** | - | - | - |
+|     | Buyer | Seller | Unknown |
+| --- | ---   | ---    | ---     |
+| **0 - Created** | - | Cancel | Purchase (Become Buyer) |
+| **1 - Locked** | Confirm Receipt | Refund | -
+| **2 - Inactive** | - | - | - |
 
 `buyButton.js` will update the UI and hook up the `click` events with the correct method based on the user's address.
 
