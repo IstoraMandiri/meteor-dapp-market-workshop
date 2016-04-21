@@ -1,7 +1,28 @@
 <template name="navbar">
+  <ul id="accounts-dropdown" class="dropdown-content">
+    {{#each accounts}}
+      {{#if @index}}
+        <li class="divider"></li>
+      {{/if}}
+      <li>
+        <a class='select-account' href="#!">
+          <span class='valign-wrapper'>
+            {{shortAddress address}}
+          </span>
+        </a>
+      </li>
+    {{/each}}
+  </ul>
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper">
       <a href="/" class="brand-logo center">EthMart</a>
+      <ul class="right">
+        <li>
+          <a class="dropdown-button valign-wrapper" href="#!" data-activates="accounts-dropdown">
+            {{shortAddress defaultAddress}} - {{balance}} ETH
+          </a>
+        </li>
+      </ul>
     </div>
   </nav>
 </template>

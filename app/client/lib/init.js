@@ -13,5 +13,5 @@ ipfs.setProvider()
 
 // use coinbase as `defaultAccount`
 Meteor.startup(function () {
-  web3.eth.defaultAccount = web3.eth.coinbase
+  EthAccounts.init()
 })

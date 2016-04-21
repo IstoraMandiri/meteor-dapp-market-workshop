@@ -22,7 +22,7 @@ Template.ipfsInfo.onCreated(function () {
 Template.ipfsInfo.helpers({
   isUpdatable: function () {
     // yes, if we pass an `updateable` param and the owner is the default web3 account
-    return this.config.updateable && web3.eth.defaultAccount === this.config.owner
+    return this.config.updateable && app.getDefaultAddress() === this.config.owner
   }
 })
 
