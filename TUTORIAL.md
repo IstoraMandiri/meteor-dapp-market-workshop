@@ -405,7 +405,7 @@ This is a handlebars template. It's similar to HTML, but with some extra feature
 
 Let's add a navbar header:
 
-`client/tempaltes/components/navbar.html`
+`client/templates/components/navbar.html`
 
 ```handlebars
 <template name="navbar">
@@ -829,7 +829,7 @@ Fist the markup:
 </template>
 ```
 
-Fairly straight forward here. We're using `TempalteVar` display the correct markup depending on the state, which we'll define below. The important part here is `{{> UI.contentBlock .}}`, which will allow us to wrap the HTML we want to render like:
+Fairly straight forward here. We're using `TemplateVar` display the correct markup depending on the state, which we'll define below. The important part here is `{{> UI.contentBlock .}}`, which will allow us to wrap the HTML we want to render like:
 
 ```handlebars
 {{#ipfsInfo}}
