@@ -159,6 +159,14 @@ Basically, for what we're doing it's a no-brainer to use a private testnet for d
 
 `geth` has a lot of command line options which you're encouraged to discover for yourself. For now, you can use the handy script in the scripts folder:
 
+If you haven't already, you'll need to clone this repo. Do this in another folder:
+
+```bash
+git clone https://github.com/hitchcott/meteor-dapp-market-workshop/
+```
+
+Then navigate into it, and start the blockchain script:
+
 ```bash
 ./scripts/blockchain/start-blockchain.sh
 ```
