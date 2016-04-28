@@ -1085,7 +1085,7 @@ As you can see, we're pulling out the `new` method (for deploying) and combining
 
 Speaking of deploying other contracts - our market need some products. Luckily all the work we did decoupling the deploy step will pay off here, as we simply need to call it again with different parameters to deploy the contract.
 
-First let's add the *[Purchase][https://github.com/frozeman/example-escrow-dapp/blob/master/escrow.sol])* aka *Escrow* aka *Product* contract itself:
+First let's add the *[Purchase](https://github.com/frozeman/example-escrow-dapp/blob/master/escrow.sol])* aka *Escrow* aka *Product* contract itself:
 
 `client/contracts/purchase.sol`
 
