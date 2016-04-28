@@ -141,6 +141,8 @@ We'll want to start looking at contracts and understanding how they fit in. But 
 
 ### Picking the Right Network
 
+__Note__ : for those of you who do not want to install `geth` locally or are, for some reason, unable to, there will be at least one `geth` node available on the day that you will be able to connect to. Please read on if you have installed your own local `geth` node. Do not hesitate to grab our attention if you want to try connecting your node to the local workshop cluster. 
+
 There are a few different types of network we could connect to:
 
 * Public Mainnet (unpermissioned)
