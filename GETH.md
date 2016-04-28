@@ -3,13 +3,14 @@
 Let's start `geth` on a local testnet:
 
 ```
-geth --dev --rpc --rpccorsdomain "*"
+geth --dev --rpc --rpccorsdomain "*" --datadir ~/Desktop/geth-test
 ```
 
 And attach the console (in a new terminal)
 
 ```
-geth attach
+cd ~/Desktop
+geth attach ipc://$PWD/geth-test/geth.ipc
 ```
 
 Now let's see what accounts we have:
@@ -103,13 +104,3 @@ Let's say you don't want to enter the password every time?
 ```
 personal.unlockAccount(eth.accounts[0])
 ```
-
-Now let's see some solidity...
-
-http://solidity.readthedocs.org/en/latest/structure-of-a-contract.html
-
----
-
-**DANGER: NEVER DO THIS IF YOU HAVE REAL ETHER** 
-
-To reset this demo, use `rm -rf ~/Library/Etheruem/keystore`

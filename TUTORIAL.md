@@ -4,6 +4,10 @@ EthMart is a simple Decentralized Application (Dapp) that allows users to create
 
 This tutorial is designed to introduce the foundational elements of dapp development with Ethereum and will result in the creation of a production ready (albeit very simple) decentralized app.
 
+To get the most out of this tutorial, please read and understand it; including the comments in-line in the code. You can simply copy and paste if you want, but it'll be more valuable to really know what's going on by manually typing.
+
+If you really get stuck, you can also check out any of major steps based on the 'diff' link at the start of each section.
+
 ### Prerequisites
 
 This tutorial was designed for Mac OSX or Ubuntu. Please complete the setup guide (SETUP.md) before beginning.
@@ -164,10 +168,12 @@ Basically, for what we're doing it's a no-brainer to use a private testnet for d
 If you haven't already, you'll need to clone this repo. Do this in another folder:
 
 ```bash
+// ubuntu users: replace desktop with somewhere in your home directory
+cd ~/Desktop/
 git clone https://github.com/hitchcott/meteor-dapp-market-workshop/
 ```
 
-Then navigate into it, and start the blockchain script:
+Then navigate into it `cd meteor-dapp-market-workshop`, and start the blockchain script:
 
 ```bash
 ./scripts/blockchain/start-blockchain.sh
@@ -189,7 +195,18 @@ If you want to attach the console to this node, you'll need to use:
 geth attach ipc://$PWD/scripts/blockchain/tmp/geth.ipc
 ```
 
-With an attached console, we can interact with the `geth` node.
+If you'd rather *not* use this script, you can use:
+
+```
+geth --dev --rpc --rpccorsdomain "*" --datadir ~/Desktop/geth-dev-test
+// and then in another window attach
+cd ~/Desktop
+geth attach ipc://$PWD/geth-dev-test/geth.ipc
+```
+
+(But this means you'll need to manually manage accounts and mining.)
+
+With an attached console, we can interact with the `geth` node (like we did in `GETH.md`).
 
 ```bash
 > eth.accounts

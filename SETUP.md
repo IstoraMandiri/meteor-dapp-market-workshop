@@ -25,7 +25,6 @@ It's really simple to install `geth` - just run the following and install via yo
 // on ubuntu
 sudo apt-get install software-properties-common
 sudo add-apt-repository -y ppa:ethereum/ethereum
-sudo add-apt-repository -y ppa:ethereum/ethereum-dev
 sudo apt-get update
 sudo apt-get install ethereum
 
